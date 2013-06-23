@@ -1,0 +1,9 @@
+name: "Moscow"
+citizens: {
+    name: "John"
+    age: 40
+}
+citizens: {
+    name: "Paul"
+    age: 30
+}

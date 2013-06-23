@@ -21,9 +21,9 @@ public class ProtobufToJsonMain {
     private static void usage() {
         System.err.println("usage: protobuf-to-json [args]");
         System.err.println("    -in <FILE>         protbuf input");
-        System.err.println("    -textin <FILE>     protobuf input in text format");
+        System.err.println("    -text-in <FILE>     protobuf input in text format");
         System.err.println("    -proto-bin <FILE>  binary representation of .proto");
-        System.err.println("    -json-out <FILE    .json output");
+        System.err.println("    -json-out <FILE>   .json output");
         System.err.println("    -type              message type");
         System.err.println();
         System.err.println("binary representation of .proto can be generated with command:");
@@ -75,11 +75,6 @@ public class ProtobufToJsonMain {
             System.exit(1);
         }
 
-        if (!jsonOut.isPresent()) {
-            errorAndUsage("-json-out must be specified");
-            System.exit(1);
-        }
-
         if (!type.isPresent()) {
             errorAndUsage("-type must be specified");
             System.exit(1);
@@ -95,8 +90,6 @@ public class ProtobufToJsonMain {
         Descriptors.FileDescriptor fileDescriptor = Descriptors.FileDescriptor.buildFrom(fileDescriptorSet.getFile(0), new Descriptors.FileDescriptor[0]);
         Descriptors.Descriptor descriptor = fileDescriptor.findMessageTypeByName(type.get());
 
-        DynamicMessage.Builder dynamicMessage = DynamicMessage.newBuilder(descriptor);
-
         DynamicMessage message;
         if (in.isPresent()) {
             message = FileUtils.read(new File(in.get()), is -> DynamicMessage.parseFrom(descriptor, is));
@@ -107,6 +100,15 @@ public class ProtobufToJsonMain {
                 return builder.build();
             });
         }
+
+        String protobufText = ProtobufToJson.protobufToJsonString(message);
+
+        if (jsonOut.isPresent()) {
+            FileUtils.write(new File(jsonOut.get()), protobufText);
+        } else {
+            System.out.println(protobufText);
+        }
+
     }
 
 }

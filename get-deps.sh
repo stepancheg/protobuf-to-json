@@ -24,6 +24,8 @@ download_from_maven() {
 download_from_maven com/google/protobuf protobuf-java 2.5.0
 download_from_maven junit junit 4.11
 download_from_maven com/intellij annotations 12.0
+download_from_maven org/hamcrest hamcrest-all 1.3
+download_from_maven com/google/code/gson gson 2.2.4
 
 
 # vim: set ts=4 sw=4 et:

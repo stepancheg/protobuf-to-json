@@ -1,0 +1,11 @@
+package com.github.stepancheg.protobuftojson.test;
+
+message Citizen {
+    optional string name = 1;
+    optional int32 age = 2;
+}
+
+message City {
+    required string name = 1;
+    repeated Citizen citizens = 2;
+}
